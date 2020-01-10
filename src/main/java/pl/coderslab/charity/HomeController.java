@@ -30,6 +30,9 @@ public class HomeController {
 
         Long numberOfDonations = donationRepository.getSumOfDonationQuantity();
         model.addAttribute("numberOfDonations", numberOfDonations);
+
+        Long numberOfSupportedInstitutions = donationRepository.getCountOfInstitutionWithDonations();
+        model.addAttribute("numberOfSupportedInstitutions", numberOfSupportedInstitutions);
         return "index";
     }
 }

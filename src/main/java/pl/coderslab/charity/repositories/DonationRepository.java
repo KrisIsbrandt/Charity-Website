@@ -10,5 +10,8 @@ public interface DonationRepository extends JpaRepository<Donation, Long> {
 
     @Query("select sum(d.quantity) from Donation d")
     Long getSumOfDonationQuantity();
+
+    @Query("select count(distinct d.institution) from Donation d")
+    Long getCountOfInstitutionWithDonations();
 }
 
