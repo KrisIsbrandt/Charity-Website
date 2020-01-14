@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
 
+
   /**
    * Form Select
    */
@@ -149,26 +150,87 @@ document.addEventListener("DOMContentLoaded", function() {
      */
     updateForm() {
       this.$step.innerText = this.currentStep;
-
       // TODO: Validation
 
       this.slides.forEach(slide => {
         slide.classList.remove("active");
 
-        if (slide.dataset.step == this.currentStep) {
-          slide.classList.add("active");
-        }
-      });
+      if (slide.dataset.step == this.currentStep) {
+        slide.classList.add("active");
+      }
+    });
 
       this.$stepInstructions[0].parentElement.parentElement.hidden = this.currentStep >= 5;
       this.$step.parentElement.hidden = this.currentStep >= 5;
 
-      // TODO: get data from inputs and show them in summary
-    }
+      /**
+       * Form Input Fields
+       */
+      var category =updateSelectedCategories();
+      var quantity = $('#quantity').val();
+      var institution = updateSelectedInstitution();
 
+      var street = $('#street').val();
+      var city = $('#city').val();
+      var zipCode = $('#zipCode').val();
+      var phoneNumber = $('#phoneNumber').val();
+
+      var pickUpDate = $('#pickUpDate').val();
+      var pickUpTime = $('#pickUpTime').val();
+      var pickUpComment = $('#pickUpComment').val();
+
+      if (this.currentStep >= 5) {
+        $('#summary--1').text(quantity + ' worki z ' + category);
+        $('#summary--2').text(institution);
+
+        var addressDetails = makeList(street, city, zipCode, phoneNumber);
+        $('#summary--pickUpAddress').empty();
+        $('#summary--pickUpAddress').append(addressDetails);
+
+
+        if (pickUpComment.length === 0) {pickUpComment = 'Brak uwag'};
+        var pickUpDetails = makeList(pickUpDate, pickUpTime, pickUpComment);
+        $('#summary--pickUpTime').empty();
+        $('#summary--pickUpTime').append(pickUpDetails);
+      }
+    }
   }
+
   const form = document.querySelector(".form--steps");
   if (form !== null) {
     new FormSteps(form);
   }
+
+  function updateSelectedCategories() {
+    var selectedCategories = [];
+    var categoryCheckboxes = $('input[name=categories]');
+
+    categoryCheckboxes.each(function(i, el) {
+      if($(this).prop('checked')) {
+        selectedCategories.push($(this).next().next().text());
+      }
+    });
+    return selectedCategories.join(", ");
+  }
+
+  function updateSelectedInstitution() {
+    var selectedInstitution = '';
+    var institutionRadio = $('input[name=institutions]');
+
+    institutionRadio.each(function(i, el) {
+      if ($(this).prop('checked')) {
+          selectedInstitution = $(this).next().next().text().split('\n')[1].trim();
+      }
+    });
+    return selectedInstitution;
+  }
+
+  function makeList() {
+    var list = '';
+    for(var i = 0; i < arguments.length; i++) {
+      list += '<li>' + arguments[i] + '</li>';
+    }
+    return list;
+  }
+
 });
