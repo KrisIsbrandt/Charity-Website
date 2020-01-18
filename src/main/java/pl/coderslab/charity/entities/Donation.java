@@ -3,6 +3,7 @@ package pl.coderslab.charity.entities;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -15,23 +16,36 @@ public class Donation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Min(1)
+    @Max(100)
+    @NotNull
     private Long quantity;
+
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "donation_category",
             joinColumns = @JoinColumn(name = "donation_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
+    @NotNull
     private List<Category> categories;
+
 
     @OneToOne
     @JoinColumn(name = "institution_id")
+    @NotNull
     private Institution institution;
 
+    @NotEmpty
     private String street;
+
+    @NotEmpty
     private String city;
+
+    @NotEmpty
     private String zipCode;
     private String phoneNumber;
 
+    @Future
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate pickUpDate;
 
