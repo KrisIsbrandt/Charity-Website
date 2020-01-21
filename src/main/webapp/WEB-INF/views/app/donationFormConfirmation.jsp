@@ -11,10 +11,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
-    <link rel="stylesheet" href="<c:url value="../../resources/css/style.css"/>" />
+    <link rel="stylesheet" href="<c:url value="../../../resources/css/style.css"/>" />
 </head>
 <body>
-<%@include file="fragments/headerLoggedUser.jsp"%>
+<%@include file="../fragments/headerLoggedUser.jsp"%>
 
 <div class="slogan container container--90">
     <h2>
@@ -23,7 +23,7 @@
     </h2>
 </div>
 
-<%@include file="fragments/footer.jsp"%>
+<%@include file="../fragments/footer.jsp"%>
 
 </body>
 </html>

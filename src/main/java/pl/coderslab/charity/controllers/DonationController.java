@@ -7,7 +7,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import pl.coderslab.charity.entities.Category;
 import pl.coderslab.charity.entities.Donation;
 import pl.coderslab.charity.entities.Institution;
@@ -19,7 +18,7 @@ import javax.validation.Valid;
 import javax.validation.Validator;
 import java.util.List;
 
-@Controller
+@Controller()
 public class DonationController {
 
     private InstitutionRepository institutionRepository;
@@ -48,20 +47,19 @@ public class DonationController {
         return institutionRepository.findAll();
     }
 
-    @GetMapping("/donation")
+    @GetMapping("app/donation")
     public String donationForm(Model model) {
         model.addAttribute("donation", new Donation());
-        return "donationForm";
+        return "app/donationForm";
     }
 
-    @PostMapping("/donation")
+    @PostMapping("app/donation")
     public String donationFormReceived(@Valid Donation donation, BindingResult result) {
         if(result.hasErrors()){
-            return "donationForm";
+            return "app/donationForm";
         }
-        System.out.println(donation);
-        //donationRepository.save(donation);
+        donationRepository.save(donation);
 
-        return "donationFormConfirmation";
+        return "app/donationFormConfirmation";
     }
 }
