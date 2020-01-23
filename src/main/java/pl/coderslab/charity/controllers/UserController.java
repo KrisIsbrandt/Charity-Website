@@ -24,16 +24,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/create-admin")
-    @ResponseBody
-    public String createAdmin() {
-        User user = new User();
-        user.setEmail("admin@admin.pl");
-        user.setPassword("admin");
-        userService.saveUser(user);
-        return "admin created";
-    }
-
     @GetMapping("/login")
     public String login() {
         return "login";
@@ -65,9 +55,10 @@ public class UserController {
             return "registration";
         }
 
+        user = new User();
+
         user.setEmail(userDto.getEmail());
         user.setPassword(userDto.getPassword());
-        user.setRole(User.Role.ROLE_USER);
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         userService.saveUser(user);

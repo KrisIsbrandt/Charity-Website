@@ -32,15 +32,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/app", "/app/**")
                 .authenticated()
-                .and().formLogin().loginPage("/app/login")
-                .and().logout().logoutSuccessUrl("/");
+                .and().formLogin().loginPage("/login")
+                .and().logout().logoutSuccessUrl("/app/donation");
 
         //Only logged admins
         http.authorizeRequests()
                 .antMatchers("/admin", "/admin/**")
                 .hasRole("ADMIN")
-                .and().formLogin().loginPage("/app/login")
-                .and().logout().logoutSuccessUrl("/");;
+                .and().formLogin().loginPage("/login")
+                .and().logout().logoutSuccessUrl("/app/donation");
     }
 
     @Bean

@@ -69,6 +69,6 @@ public class UserDto {
     }
 
     public boolean samePassord() {
-        return this.password == this.password2;
+        return this.password.equals(this.password2);
     }
 }

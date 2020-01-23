@@ -18,7 +18,7 @@
     <h2>Zaloguj się</h2>
     <form method="post" action="<c:url value="/login"/>">
         <div class="form-group">
-            <input type="email" name="email" placeholder="Email" />
+            <input type="text" name="username" placeholder="Email" />
         </div>
         <div class="form-group">
             <input type="password" name="password" placeholder="Hasło" />
