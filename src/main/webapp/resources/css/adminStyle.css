@@ -1,0 +1,37 @@
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    border-color: #aaa;
+}
+
+td {
+    text-align: left;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    padding: 10px 5px;
+    border-style: solid;
+    border-width: 0px;
+    overflow: hidden;
+    word-break: normal;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-color: #aaa;
+    color: #333;
+    background-color: #fff;
+}
+
+th {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 5px;
+    border-style: solid;
+    border-width: 0px;
+    overflow: hidden;
+    word-break: normal;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-color: #aaa;
+    color: #fff;
+    background-color: #f38630;
+}
