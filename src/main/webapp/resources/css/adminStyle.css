@@ -1,3 +1,8 @@
+.toolbar {
+    text-decoration:none;
+    display: block;
+}
+
 table {
     border-collapse: collapse;
     border-spacing: 0;
@@ -13,6 +18,7 @@ td {
     border-width: 0px;
     overflow: hidden;
     word-break: normal;
+    border-right-width: 1px;
     border-top-width: 1px;
     border-bottom-width: 1px;
     border-color: #aaa;
@@ -29,9 +35,12 @@ th {
     border-width: 0px;
     overflow: hidden;
     word-break: normal;
+    border-right-width: 1px;
     border-top-width: 1px;
     border-bottom-width: 1px;
     border-color: #aaa;
     color: #fff;
     background-color: #f38630;
 }
+
+

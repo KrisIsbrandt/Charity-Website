@@ -11,10 +11,14 @@
         </form>
 
         <h1>Panel Administratora</h1>
-        <ul>
-            <li><a href="<c:url value="/admin/user"/>" >Użytkownicy</a></li>
-            <li><a href="<c:url value="/admin/institution"/>" >Instytucje</a></li>
-            <li><a href="<c:url value="/admin/donation"/>" >Dary i Kategorie</a></li>
-        </ul>
+        <table style="width:100%">
+            <tr>
+                <th><a class="toolbar" href="<c:url value="/admin/user"/>" >Użytkownicy</a></th>
+                <th><a class="toolbar" href="<c:url value="/admin/institution"/>" >Instytucje</a></th>
+                <th><a class="toolbar" href="<c:url value="/admin/donation"/>" >Dary</a></th>
+                <th><a class="toolbar" href="<c:url value="/admin/category"/>" >Kategorie</a></th>
+            </tr>
+        </table>
+       <br><br>
     </nav>
 </header>
