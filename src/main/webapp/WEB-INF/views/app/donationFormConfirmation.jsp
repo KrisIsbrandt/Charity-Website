@@ -14,8 +14,9 @@
     <link rel="stylesheet" href="<c:url value="../../../resources/css/style.css"/>" />
 </head>
 <body>
-<%@include file="../fragments/headerLoggedUser.jsp"%>
-
+<header>
+    <%@include file="../fragments/headerLoggedUser.jsp"%>
+</header>
 <div class="slogan container container--90">
     <h2>
         Dziękujemy za przesłanie formularza Na maila prześlemy wszelkie

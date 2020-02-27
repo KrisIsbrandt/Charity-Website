@@ -13,7 +13,9 @@
     <link rel="stylesheet" href="<c:url value="../../resources/css/style.css"/>"/>
 </head>
 <body>
-<%@include file="fragments/header.jsp"%>
+<header>
+    <%@include file="fragments/header.jsp"%>
+</header>
 
 <section class="login-page">
     <h2>Załóż konto</h2>

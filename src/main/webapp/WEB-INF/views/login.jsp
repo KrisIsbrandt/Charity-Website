@@ -12,8 +12,9 @@
     <link rel="stylesheet" href="<c:url value="../../resources/css/style.css"/>"/>
 </head>
 <body>
+<header>
 <%@include file="fragments/header.jsp"%>
-
+</header>
 <section class="login-page">
     <h2>Zaloguj się</h2>
     <form method="post" action="<c:url value="/login"/>">
