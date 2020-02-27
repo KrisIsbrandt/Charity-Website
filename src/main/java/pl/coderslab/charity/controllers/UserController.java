@@ -7,7 +7,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import pl.coderslab.charity.dto.UserDto;
 import pl.coderslab.charity.entities.User;
 import pl.coderslab.charity.services.UserService;
@@ -24,6 +23,7 @@ public class UserController {
         this.userService = userService;
     }
 
+    /* Endpoint to create 1st admin user
     @GetMapping("/create_admin")
     @ResponseBody
     public String createAdmin(){
@@ -37,6 +37,8 @@ public class UserController {
 
         return "Admin created";
     }
+
+     */
 
     @GetMapping("/login")
     public String login() {

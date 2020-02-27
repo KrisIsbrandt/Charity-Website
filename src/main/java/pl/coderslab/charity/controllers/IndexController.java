@@ -12,19 +12,19 @@ import java.util.List;
 
 
 @Controller
-public class HomeController {
+public class IndexController {
 
     private InstitutionRepository institutionRepository;
     private DonationRepository donationRepository;
 
     @Autowired
-    public HomeController(InstitutionRepository institutionRepository, DonationRepository donationRepository) {
+    public IndexController(InstitutionRepository institutionRepository, DonationRepository donationRepository) {
         this.institutionRepository = institutionRepository;
         this.donationRepository = donationRepository;
     }
 
     @GetMapping({"", "/"})
-    public String homeAction(Model model){
+    public String homePage(Model model){
         List<Institution> institutions = institutionRepository.findAll();
         model.addAttribute("institutions", institutions);
 
@@ -34,5 +34,29 @@ public class HomeController {
         Long numberOfSupportedInstitutions = donationRepository.getCountOfInstitutionWithDonations();
         model.addAttribute("numberOfSupportedInstitutions", numberOfSupportedInstitutions);
         return "index";
+    }
+
+    @GetMapping("/idea")
+    public String ideaPage(){
+        //TODO idea page
+        return "redirect:/";
+    }
+
+    @GetMapping("/about_us")
+    public String aboutUsPage(){
+        //TODO about us info
+        return "redirect:/";
+    }
+
+    @GetMapping("/institution")
+    public String institutionPage(){
+        //TODO list of supported institutions
+        return "redirect:/";
+    }
+
+    @GetMapping("/contact")
+    public String contactPage(){
+        //TODO contact page
+        return "redirect:/";
     }
 }
