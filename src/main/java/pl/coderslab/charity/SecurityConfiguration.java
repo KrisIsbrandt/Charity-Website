@@ -6,13 +6,29 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import pl.coderslab.charity.services.AuthenticationSuccessHandlerImpl;
 import pl.coderslab.charity.services.SpringDataUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    //Endpoint authorization
+    @Bean
+    public SpringDataUserDetailsService customUserDetailsService() {
+        return new SpringDataUserDetailsService();
+    }
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+
+    @Bean
+    public AuthenticationSuccessHandler handler(){
+        return new AuthenticationSuccessHandlerImpl();
+    }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //Available for everyone
@@ -25,8 +41,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authenticated()
                 .and().formLogin().loginPage("/login")
                 .usernameParameter("email")
-                .passwordParameter("password")
-                .and().logout().logoutSuccessUrl("/app/donation");
+                .passwordParameter("password").successHandler(handler())
+                .and().logout().logoutSuccessUrl("/");
 
         //Only logged admins
         http.authorizeRequests()
@@ -34,17 +50,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .hasRole("ADMIN")
                 .and().formLogin().loginPage("/login")
                 .usernameParameter("email")
-                .passwordParameter("password")
-                .and().logout().logoutSuccessUrl("/app/donation");
-    }
-
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public SpringDataUserDetailsService customUserDetailsService() {
-        return new SpringDataUserDetailsService();
+                .passwordParameter("password").successHandler(handler())
+                .and().logout().logoutSuccessUrl("/");
     }
 }
