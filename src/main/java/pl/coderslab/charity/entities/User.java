@@ -1,7 +1,5 @@
 package pl.coderslab.charity.entities;
 
-import org.hibernate.validator.constraints.UniqueElements;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -18,6 +16,7 @@ public class User {
     private Role role;
 
     private String firstName;
+
     private String lastName;
 
     @NotNull
@@ -28,7 +27,11 @@ public class User {
     @NotNull
     private String password;
 
+    private boolean active;
+
     public User() {
+        super();
+        this.active = false;
     }
 
     public Long getId() {
@@ -77,6 +80,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public enum Role {

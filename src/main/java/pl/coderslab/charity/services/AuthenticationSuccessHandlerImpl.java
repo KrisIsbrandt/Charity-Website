@@ -1,11 +1,15 @@
 package pl.coderslab.charity.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import pl.coderslab.charity.entities.User;
+import pl.coderslab.charity.services.user.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +21,9 @@ import java.util.Collection;
 public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHandler {
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+
+    @Autowired
+    private UserService userService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
@@ -33,33 +40,33 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
                           Authentication authentication)
                           throws IOException {
 
-        String targetUrl = determineTargetUrl(authentication);
+        String targetUrl;
+
+        if (isUserActive(authentication)) {
+            targetUrl = determineTargetUrl(authentication);
+        } else {
+            targetUrl = "/error";
+        }
 
         redirectStrategy.sendRedirect(request, response, targetUrl);
     }
 
+    protected boolean isUserActive(Authentication authentication) {
+        UserDetails userPrincipal = (UserDetails)authentication.getPrincipal();
+        User user = userService.findByEmail(userPrincipal.getUsername());
+        return user.isActive();
+    }
+
     protected String determineTargetUrl(Authentication authentication) {
-        boolean isUser = false;
-        boolean isAdmin = false;
-        Collection<? extends GrantedAuthority> authorities
-                = authentication.getAuthorities();
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (GrantedAuthority grantedAuthority : authorities) {
             if (grantedAuthority.getAuthority().equals("ROLE_USER")) {
-                isUser = true;
-                break;
+                return "/app";
             } else if (grantedAuthority.getAuthority().equals("ROLE_ADMIN")) {
-                isAdmin = true;
-                break;
+                return "/admin";
             }
         }
-
-        if (isUser) {
-            return "/app";
-        } else if (isAdmin) {
-            return "/admin";
-        } else {
-            throw new IllegalStateException();
-        }
+        throw new IllegalStateException();
     }
 
     protected void clearAuthenticationAttributes(HttpServletRequest request) {
