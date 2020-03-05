@@ -8,8 +8,8 @@
             <li class="logged-user">
                 Witaj ${loggedUserName}
                 <ul class="dropdown">
-                    <li><a href="#">Profil</a></li>
-                    <li><a href="#">Moje zbiórki</a></li>
+                    <li><a href="<c:url value="/app/profil"/>">Profil</a></li>
+                    <li><a href="<c:url value="/app/my_donations"/>">Moje zbiórki</a></li>
                     <li>
                         <form action="<c:url value="/logout"/>" method="post">
                             <input type="submit" value="Wyloguj"/>
