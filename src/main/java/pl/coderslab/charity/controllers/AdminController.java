@@ -13,7 +13,7 @@ import pl.coderslab.charity.repositories.CategoryRepository;
 import pl.coderslab.charity.repositories.DonationRepository;
 import pl.coderslab.charity.repositories.InstitutionRepository;
 import pl.coderslab.charity.repositories.UserRepository;
-import pl.coderslab.charity.services.UserService;
+import pl.coderslab.charity.services.user.UserService;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -23,11 +23,11 @@ import java.util.List;
 @RequestMapping("/admin")
 public class AdminController {
 
-    private InstitutionRepository institutionRepository;
-    private CategoryRepository categoryRepository;
-    private DonationRepository donationRepository;
-    private UserRepository userRepository;
-    private UserService userService;
+    private final InstitutionRepository institutionRepository;
+    private final CategoryRepository categoryRepository;
+    private final DonationRepository donationRepository;
+    private final UserRepository userRepository;
+    private final UserService userService;
 
     @Autowired
     public AdminController(InstitutionRepository institutionRepository,

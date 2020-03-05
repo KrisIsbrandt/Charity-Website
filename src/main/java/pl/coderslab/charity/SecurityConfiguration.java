@@ -8,7 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import pl.coderslab.charity.services.AuthenticationSuccessHandlerImpl;
-import pl.coderslab.charity.services.SpringDataUserDetailsService;
+import pl.coderslab.charity.services.user.SpringDataUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
@@ -42,7 +42,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and().formLogin().loginPage("/login")
                 .usernameParameter("email")
                 .passwordParameter("password").successHandler(handler())
-                .and().logout().logoutSuccessUrl("/");
+                .and().logout().logoutSuccessUrl("/").deleteCookies("JSESSIONID");
 
         //Only logged admins
         http.authorizeRequests()
@@ -51,6 +51,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and().formLogin().loginPage("/login")
                 .usernameParameter("email")
                 .passwordParameter("password").successHandler(handler())
-                .and().logout().logoutSuccessUrl("/");
+                .and().logout().logoutSuccessUrl("/").deleteCookies("JSESSIONID");
     }
 }

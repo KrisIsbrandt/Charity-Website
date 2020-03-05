@@ -1,10 +1,12 @@
 package pl.coderslab.charity.dto;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 public class UserDto {
 
     @NotEmpty
+    @Email
     private String email;
 
     @NotEmpty
@@ -68,7 +70,7 @@ public class UserDto {
         this.lastName = lastName;
     }
 
-    public boolean samePassord() {
+    public boolean samePassword() {
         return this.password.equals(this.password2);
     }
 }
