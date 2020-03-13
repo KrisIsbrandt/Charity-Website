@@ -1,4 +1,4 @@
-package pl.coderslab.charity.services.user;
+package pl.coderslab.charity.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -9,7 +9,10 @@ import pl.coderslab.charity.entities.VerificationToken;
 import pl.coderslab.charity.repositories.UserRepository;
 import pl.coderslab.charity.repositories.VerificationTokenRepository;
 
+import java.util.UUID;
+
 import static pl.coderslab.charity.entities.User.Role.ROLE_USER;
+import static pl.coderslab.charity.entities.VerificationToken.getEXPIRATION;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -32,6 +35,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User hashPassword(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return user;
+    }
+
+
+    @Override
     public User registerNewUser(UserDto userDto) {
         User user = new User();
         user.setEmail(userDto.getEmail());
@@ -51,8 +61,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public VerificationToken generateNewVerificationToken(String token) {
+        VerificationToken verificationToken = verificationTokenRepository.findByToken(token);
+        String newToken = UUID.randomUUID().toString();
+        verificationToken.setToken(newToken);
+        verificationToken.setExpiryDate(getEXPIRATION());
+        verificationTokenRepository.save(verificationToken);
+        return verificationToken;
+    }
+
+    @Override
     public VerificationToken getVerificationToken(String token) {
         return verificationTokenRepository.findByToken(token);
+    }
+
+    @Override
+    public VerificationToken findTokenByUser(User user) {
+        return verificationTokenRepository.findByUser(user);
     }
 
     @Override

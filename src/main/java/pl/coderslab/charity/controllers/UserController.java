@@ -6,18 +6,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import pl.coderslab.charity.dto.UserDto;
 import pl.coderslab.charity.entities.User;
 import pl.coderslab.charity.entities.VerificationToken;
 import pl.coderslab.charity.services.EmailService;
 import pl.coderslab.charity.services.EmailServiceImpl;
-import pl.coderslab.charity.services.registration.OnRegistrationCompleteEvent;
-import pl.coderslab.charity.services.user.UserService;
+import pl.coderslab.charity.events.OnRegistrationCompleteEvent;
+import pl.coderslab.charity.services.UserService;
 
 import javax.validation.Valid;
 import java.util.Calendar;
@@ -38,6 +35,7 @@ public class UserController {
 
     /**
      * Endpoint to create 1st Admin account
+     *
      * @return
      */
     /*
@@ -56,7 +54,6 @@ public class UserController {
         return "Admin created";
     }
      */
-
     @GetMapping("/login")
     public String login() {
         return "login";
@@ -91,25 +88,57 @@ public class UserController {
         String appUrl = request.getContextPath();
         eventPublisher.publishEvent(new OnRegistrationCompleteEvent(user, request.getLocale(), appUrl));
 
-        return "registrationConfirmation";
+        return "emailSendConfirmation";
     }
 
     @GetMapping("/register/confirm/{token}")
-    public String confirmRegistration(@PathVariable String token) {
+    public String confirmRegistration(@PathVariable String token, Model model) {
         VerificationToken verificationToken = userService.getVerificationToken(token);
         if (verificationToken == null) {
-            //TODO Error handling, token not found
+            String message = "Taki kod weryfikacyjny nie istnieje";
+            model.addAttribute("message", message);
+            return "/error";
         }
 
         User user = verificationToken.getUser();
         Calendar calendar = Calendar.getInstance();
 
-        if((verificationToken.getExpiryDate().getTime() - calendar.getTime().getTime()) <= 0) {
-            //TODO Error handling, expired token
+        if ((verificationToken.getExpiryDate().getTime() - calendar.getTime().getTime()) <= 0) {
+            String message = "Nieważny kod weryfikacyjny";
+            model.addAttribute("message", message);
+            return "/error";
         }
 
         user.setActive(true);
         userService.saveUser(user);
         return "redirect:/login";
     }
+
+    @PostMapping("/resendToken")
+    public String resendVerificationTokenPost(@RequestParam String email, Model model) {
+
+        User user = userService.findByEmail(email);
+
+        if (user == null) {
+            String message = "Taki email nie istnieje w naszej bazie danych";
+            model.addAttribute("message", message);
+            return "/error";
+        }
+        VerificationToken oldToken = userService.findTokenByUser(user);
+        VerificationToken newToken = userService.generateNewVerificationToken(oldToken.getToken());
+        emailService.sendVerificationEmail(user, newToken.getToken());
+
+        return "emailSendConfirmation";
+    }
+
+    @GetMapping("/resendToken")
+    public String resendVerificationToken() {
+        return "forward :/resend?q=not_active";
+    }
+
+    @GetMapping("/resetPassword")
+    public String resetPassword() {
+        return"forward:/resend?q=password_reset";
+    }
 }
+

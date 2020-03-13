@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -17,15 +18,23 @@
 </header>
 <section class="login-page">
     <h2>Zaloguj się</h2>
+    <c:choose>
+        <c:when test="${param.error=='not_active'}">
+            <p class="error">Konto nieaktywne</p>
+            <a href="<c:url value="/resendToken"/>" class="btn btn--small btn--without-border reset-password">Aktywuj ponownie</a>
+        </c:when>
+        <c:when test="${param.error=='bad_credentials'}">
+            <p class="error">Błąd logowania</p>
+            <a href="<c:url value="/resetPassword"/>" class="btn btn--small btn--without-border reset-password">Przypomnij hasło</a>
+        </c:when>
+    </c:choose>
     <form method="post" action="<c:url value="/login"/>">
+
         <div class="form-group">
             <input type="text" name="email" placeholder="Email" />
         </div>
         <div class="form-group">
             <input type="password" name="password" placeholder="Hasło" />
-
-            <%-- TODO: przypomnienie hasla--%>
-            <%--  <a href="#" class="btn btn--small btn--without-border reset-password">Przypomnij hasło</a>--%>
         </div>
 
         <div class="form-group form-group--buttons">
@@ -33,9 +42,8 @@
             <button class="btn" type="submit">Zaloguj się</button>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
         </div>
+
     </form>
 </section>
-
-<%@ include file="fragments/footer.jsp"%>
 </body>
 </html>

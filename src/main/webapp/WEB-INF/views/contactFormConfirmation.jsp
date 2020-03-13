@@ -17,9 +17,8 @@
 </header>
 <div class="slogan container container--90">
     <h2>
-        Coś poszło nie tak :(
+        Dziękujemy za twoją wiadomość
     </h2>
 </div>
-
 </body>
 </html>

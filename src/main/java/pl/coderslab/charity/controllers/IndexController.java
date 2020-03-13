@@ -1,12 +1,16 @@
 package pl.coderslab.charity.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import pl.coderslab.charity.entities.Institution;
 import pl.coderslab.charity.repositories.DonationRepository;
 import pl.coderslab.charity.repositories.InstitutionRepository;
+import pl.coderslab.charity.services.EmailService;
 
 import java.util.List;
 
@@ -14,13 +18,18 @@ import java.util.List;
 @Controller
 public class IndexController {
 
-    private InstitutionRepository institutionRepository;
-    private DonationRepository donationRepository;
+    private final InstitutionRepository institutionRepository;
+    private final DonationRepository donationRepository;
+    private final EmailService emailService;
+
+    @Value("${spring.mail.username}")
+    private String applicationEmailAddress;
 
     @Autowired
-    public IndexController(InstitutionRepository institutionRepository, DonationRepository donationRepository) {
+    public IndexController(InstitutionRepository institutionRepository, DonationRepository donationRepository, EmailService emailService) {
         this.institutionRepository = institutionRepository;
         this.donationRepository = donationRepository;
+        this.emailService = emailService;
     }
 
     @GetMapping({"", "/"})
@@ -34,6 +43,19 @@ public class IndexController {
         Long numberOfSupportedInstitutions = donationRepository.getCountOfInstitutionWithDonations();
         model.addAttribute("numberOfSupportedInstitutions", numberOfSupportedInstitutions);
         return "index";
+    }
+
+    @PostMapping("/contactForm")
+    public String contactForm(@RequestParam String name,
+                              @RequestParam String email,
+                              @RequestParam String message) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Name: ").append(name)
+          .append("Email: ").append(email)
+          .append("Message: ").append(message);
+
+        emailService.sendEmail(applicationEmailAddress, "Contact Form Message", sb.toString());
+        return "contactFormConfirmation";
     }
 
     @GetMapping("/idea")
