@@ -1,4 +1,4 @@
-package pl.coderslab.charity.services;
+package pl.coderslab.charity.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -9,7 +9,7 @@ import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import pl.coderslab.charity.entities.User;
-import pl.coderslab.charity.services.user.UserService;
+import pl.coderslab.charity.services.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -45,7 +45,7 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
         if (isUserActive(authentication)) {
             targetUrl = determineTargetUrl(authentication);
         } else {
-            targetUrl = "/error";
+            targetUrl = "/login?error=not_active";
         }
 
         redirectStrategy.sendRedirect(request, response, targetUrl);
@@ -75,12 +75,5 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
             return;
         }
         session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
-    }
-
-    public void setRedirectStrategy(RedirectStrategy redirectStrategy) {
-        this.redirectStrategy = redirectStrategy;
-    }
-    protected RedirectStrategy getRedirectStrategy() {
-        return redirectStrategy;
     }
 }
