@@ -24,7 +24,9 @@
                 Cel i misja instytucji:<br>
                 <form:textarea rows="3" cols="50" path="description"/><br>
                 <form:hidden path="id"/>
-                <input type="submit" value="Wyślij">
+                <input type="submit" value="Wyślij"><br>
+                <form:errors path="name" cssClass="error"/>
+
             </form:form>
         </c:when>
 
@@ -34,7 +36,8 @@
                 Nazwa:<br>
                 <form:input type="text" path="name"/><br>
                 <form:hidden path="id"/>
-                <input type="submit" value="Wyślij">
+                <input type="submit" value="Wyślij"><br>
+                <form:errors path="name" cssClass="error"/>
             </form:form>
         </c:when>
 
@@ -57,41 +60,51 @@
                </form:select>
                 <br><br>
                 <form:hidden path="id"/>
-                <input type="submit" value="Wyślij">
+                <input type="submit" value="Wyślij"><br>
+
+                <form:errors path="role" cssClass="error"/><br>
+                <form:errors path="email" cssClass="error"/><br>
+                <form:errors path="password" cssClass="error"/><br>
             </form:form>
         </c:when>
 
         <c:when test="${param.type=='donation'}">
             <h3>Dar</h3>
             <form:form action="/admin/donation" method="post" modelAttribute="donation">
-                Obdarowana instytucja:<br>
+                <strong>Obdarowana instytucja:</strong><br>
                 <form:select path="institution">
-                    <form:option value="${donation.institution}" label="--wybierz--"/>
+                    <form:option value="${donation.institution}" label="--wybierz--"/><br>
                     <form:options items="${institutions}" itemValue="id" itemLabel="name"/>
-                </form:select>  <br>
+                </form:select>  <br><br>
 
-                Kategoria:<br>
+                <strong>Kategoria:</strong><br>
                 <form:checkboxes path="categories" items="${categories}"
                                  itemLabel="name" itemValue="id"/><br><br>
 
-                Ilość:<br>
+                <strong>Ilość:</strong><br>
                 <form:input type="number" path="quantity"/><br><br>
 
-                Dane adresowe<br>
+                <strong>Dane adresowe</strong><br>
 
                 Ulica: <form:input path="street"/><br>
                 Misto: <form:input path="city"/><br>
                 Kod pocztowy: <form:input path="zipCode"/><br>
                 Numer telefonu: <form:input path="phoneNumber"/><br><br>
 
-                Dane odbioru<br>
+                <strong>Dane odbioru</strong><br>
 
                 Data: <form:input type="date" path="pickUpDate"/><br>
                 Czas: <form:input type="time" path="pickUpTime" step="600"/><br>
-                Komentarz: <form:textarea path="pickUpComment" rows="5"/><br><br>
+                Komentarz: <br><form:textarea path="pickUpComment" rows="5"/><br><br>
 
                 <form:hidden path="id"/>
-                <input type="submit" value="Wyślij">
+                <input type="submit" value="Wyślij"><br>
+                <form:errors path="quantity" cssClass="error"/><br>
+                <form:errors path="categories" cssClass="error"/><br>
+                <form:errors path="institution" cssClass="error"/><br>
+                <form:errors path="street" cssClass="error"/><br>
+                <form:errors path="city" cssClass="error"/>
+                <form:errors path="zipCode" cssClass="error"/>
             </form:form>
         </c:when>
 

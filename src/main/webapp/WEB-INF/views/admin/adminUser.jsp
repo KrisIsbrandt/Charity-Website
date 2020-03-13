@@ -24,6 +24,7 @@
         <th>Imie</th>
         <th>Nazwisko</th>
         <th>Email</th>
+        <th>Aktywny</th>
         <th>Akcje</th>
     </tr>
     <c:forEach items="${users}" var="i">
@@ -32,8 +33,10 @@
             <td>${i.firstName}</td>
             <td>${i.lastName}</td>
             <td>${i.email}</td>
+            <td>${i.active}</td>
             <td>
                 <a href="<c:url value="/admin/form?type=user&id=${i.id}"/>">edytuj</a>
+                <a href="<c:url value="/admin/user/state/${i.id}"/>"onclick="return confirm('Czy na pewno chcesz to zmienć stan tego użytkownika?');">zmień stan</a>
                 <a href="<c:url value="/admin/user/delete/${i.id}"/>"onclick="return confirm('Czy na pewno chcesz to usunać?');">usuń</a>
             </td>
         </tr>

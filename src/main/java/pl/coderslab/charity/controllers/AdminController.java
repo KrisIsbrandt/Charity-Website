@@ -1,6 +1,7 @@
 package pl.coderslab.charity.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,7 +14,8 @@ import pl.coderslab.charity.repositories.CategoryRepository;
 import pl.coderslab.charity.repositories.DonationRepository;
 import pl.coderslab.charity.repositories.InstitutionRepository;
 import pl.coderslab.charity.repositories.UserRepository;
-import pl.coderslab.charity.services.user.UserService;
+import pl.coderslab.charity.services.LoggedUser;
+import pl.coderslab.charity.services.UserService;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -73,6 +75,7 @@ public class AdminController {
                 if (id != null) {
                     donation = donationRepository.getOne(id);
                 }
+                model.containsAttribute("donation");
                 model.addAttribute("donation", donation);
 
                 List<Institution> institutions = institutionRepository.findAll();
@@ -109,7 +112,10 @@ public class AdminController {
     }
 
     @PostMapping("/institution")
-    public String addInstitution(Institution institution) {
+    public String addInstitution(@Valid Institution institution, BindingResult result) {
+        if(result.hasErrors()) {
+            return "/admin/form?type=institution";
+        }
         institutionRepository.save(institution);
         return "redirect:/admin/institution";
     }
@@ -131,7 +137,10 @@ public class AdminController {
     }
 
     @PostMapping("/category")
-    public String addCategory(Category category) {
+    public String addCategory(@Valid Category category, BindingResult result) {
+        if(result.hasErrors()) {
+            return "/admin/form?type=category";
+        }
         categoryRepository.save(category);
         return "redirect:/admin/category";
     }
@@ -153,14 +162,36 @@ public class AdminController {
     }
 
     @PostMapping("/user")
-    public String addUser(User user) {
+    public String addUser(@Valid User user, BindingResult result) {
+        if(result.hasErrors()) {
+            return "/admin/form?type=user";
+        }
         userService.saveUser(user);
         return "redirect:/admin/user";
     }
 
     @GetMapping("/user/delete/{id}")
-    public String deleteUser(@PathVariable Long id) {
-        userRepository.deleteById(id);
+    public String deleteUser(@PathVariable Long id, @AuthenticationPrincipal LoggedUser loggedUser) {
+        //You cannot delete yourself
+        if (!loggedUser.getUser().getId().equals(id)) {
+            userRepository.deleteById(id);
+        }
+        return "redirect:/admin/user";
+    }
+
+    @GetMapping("/user/state/{id}")
+    public String changeUserState(@PathVariable Long id, @AuthenticationPrincipal LoggedUser loggedUser) {
+        //You cannot change your own state
+        if (!loggedUser.getUser().getId().equals(id)) {
+
+            User user = userRepository.findById(id)
+                    .orElse(null);
+            if (user != null) {
+                user.setActive(!user.isActive());
+                user = userService.hashPassword(user);
+                userService.saveUser(user);
+            }
+        }
         return "redirect:/admin/user";
     }
 
@@ -175,10 +206,10 @@ public class AdminController {
     }
 
     @PostMapping("/donation")
-    public String addDonation(@Valid Donation donation, BindingResult result) {
+    public String addDonation(@Valid Donation donation, BindingResult result, Model model) {
         if (result.hasErrors()){
-
-            return "redirect:/admin/form?type=donation";
+            model.addAttribute("donation", donation);
+            return "/admin/form?type=donation";
         }
 
         donationRepository.save(donation);
