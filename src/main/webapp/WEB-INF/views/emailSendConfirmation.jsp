@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>email
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -17,10 +17,8 @@
 </header>
 <div class="slogan container container--90">
     <h2>
-        Wysłaliśmy Ci email potwierdzający twój adres email
+        Wysłaliśmy Ci wiadomość na twój adres email
     </h2>
 </div>
-
-<%@ include file="fragments/footer.jsp"%>
 </body>
 </html>

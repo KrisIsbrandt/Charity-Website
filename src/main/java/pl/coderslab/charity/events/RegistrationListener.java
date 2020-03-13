@@ -1,11 +1,11 @@
-package pl.coderslab.charity.services.registration;
+package pl.coderslab.charity.events;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 import pl.coderslab.charity.entities.User;
 import pl.coderslab.charity.services.EmailService;
-import pl.coderslab.charity.services.user.UserService;
+import pl.coderslab.charity.services.UserService;
 
 import java.util.UUID;
 
@@ -30,10 +30,6 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
         User user = event.getUser();
         String token = UUID.randomUUID().toString();
         userService.createVerificationToken(user, token);
-
-//        String confirmationUrl = event.getAppUrl() + "/register/confirm/" + token;
-        String confirmationUrl = "http://localhost:8080/register/confirm/" + token;
-
-        emailService.sendVerificationEmail(user, confirmationUrl);
+        emailService.sendVerificationEmail(user, token);
     }
 }

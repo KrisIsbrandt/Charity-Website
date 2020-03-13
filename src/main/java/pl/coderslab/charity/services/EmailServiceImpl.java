@@ -43,8 +43,9 @@ public class EmailServiceImpl implements EmailService  {
         javaMailSender.send(mail);
     }
 
-    public void sendVerificationEmail(User user, String confirmationUrl) {
+    public void sendVerificationEmail(User user, String token) {
         Context ctx = new Context();
+        String confirmationUrl = "http://localhost:8080/register/confirm/" + token;
         ctx.setVariable("firstName", user.getFirstName());
         ctx.setVariable("confirmationUrl", confirmationUrl);
         String body = templateEngine.process("registration.html", ctx);

@@ -14,7 +14,7 @@ import pl.coderslab.charity.entities.Institution;
 import pl.coderslab.charity.repositories.CategoryRepository;
 import pl.coderslab.charity.repositories.DonationRepository;
 import pl.coderslab.charity.repositories.InstitutionRepository;
-import pl.coderslab.charity.services.user.LoggedUser;
+import pl.coderslab.charity.services.LoggedUser;
 
 import javax.validation.Valid;
 import javax.validation.Validator;

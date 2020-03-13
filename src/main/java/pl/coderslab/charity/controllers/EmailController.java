@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.thymeleaf.TemplateEngine;
 import pl.coderslab.charity.services.EmailService;
-import pl.coderslab.charity.services.user.UserService;
+import pl.coderslab.charity.services.UserService;
 
 @Controller
 public class EmailController {

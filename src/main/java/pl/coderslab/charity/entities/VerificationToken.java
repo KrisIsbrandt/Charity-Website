@@ -84,7 +84,7 @@ public class VerificationToken {
         return expiryDate;
     }
 
-    public void setExpiryDate(Date expiryDate) {
-        this.expiryDate = expiryDate;
+    public void setExpiryDate(int expiryTimeInMinutes) {
+        this.expiryDate = calculateExpirayDate(expiryTimeInMinutes);
     }
 }

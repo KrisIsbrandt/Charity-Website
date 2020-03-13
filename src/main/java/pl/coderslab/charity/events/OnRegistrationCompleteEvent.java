@@ -1,4 +1,4 @@
-package pl.coderslab.charity.services.registration;
+package pl.coderslab.charity.events;
 
 import org.springframework.context.ApplicationEvent;
 import pl.coderslab.charity.entities.User;
