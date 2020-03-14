@@ -3,6 +3,9 @@ package pl.coderslab.charity.entities;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Date;
 
 @Entity
 @Table(name = "user")
@@ -28,6 +31,8 @@ public class User {
     private String password;
 
     private boolean active;
+    private Date created;
+    private Date updated;
 
     public User() {
         super();
@@ -88,6 +93,32 @@ public class User {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    @PrePersist
+    public void setCreated() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Timestamp(calendar.getTime().getTime()));
+        this.created = new Date(calendar.getTime().getTime());
+    }
+
+    @PreUpdate
+    public void setUpdated() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Timestamp(calendar.getTime().getTime()));
+        this.created = new Date(calendar.getTime().getTime());
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", role=" + role +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", active=" + active +
+                '}';
     }
 
     public enum Role {

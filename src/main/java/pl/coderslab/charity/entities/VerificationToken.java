@@ -21,6 +21,7 @@ public class VerificationToken {
     private User user;
 
     private Date created;
+    private Date updated;
 
     private Date expiryDate;
 
@@ -73,8 +74,19 @@ public class VerificationToken {
         return created;
     }
 
+    public Date getUpdated() {
+        return updated;
+    }
+
     @PrePersist
     public void setCreated() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Timestamp(calendar.getTime().getTime()));
+        this.created = new Date(calendar.getTime().getTime());
+    }
+
+    @PreUpdate
+    public void setUpdated() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Timestamp(calendar.getTime().getTime()));
         this.created = new Date(calendar.getTime().getTime());

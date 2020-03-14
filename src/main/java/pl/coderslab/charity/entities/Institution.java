@@ -2,6 +2,9 @@ package pl.coderslab.charity.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Date;
 
 @Entity
 @Table(name = "institution")
@@ -14,6 +17,9 @@ public class Institution {
     @NotEmpty
     private String name;
     private String description;
+
+    private Date created;
+    private Date updated;
 
     public Institution() {
     }
@@ -42,12 +48,28 @@ public class Institution {
         this.description = description;
     }
 
+    @PrePersist
+    public void setCreated() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Timestamp(calendar.getTime().getTime()));
+        this.created = new Date(calendar.getTime().getTime());
+    }
+
+    @PreUpdate
+    public void setUpdated() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Timestamp(calendar.getTime().getTime()));
+        this.created = new Date(calendar.getTime().getTime());
+    }
+
     @Override
     public String toString() {
         return "Institution{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
+                ", created=" + created +
+                ", updated=" + updated +
                 '}';
     }
 }

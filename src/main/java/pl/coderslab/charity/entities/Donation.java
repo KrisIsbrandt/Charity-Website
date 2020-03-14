@@ -3,9 +3,15 @@ package pl.coderslab.charity.entities;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -52,13 +58,10 @@ public class Donation {
     private LocalTime pickUpTime;
     private String pickUpComment;
 
-    public Donation() {
-    }
+    private Date created;
+    private Date updated;
 
-    @PrePersist
-    public void onCreation() {
-        pickUpDate = LocalDate.now();
-        pickUpTime = LocalTime.now();
+    public Donation() {
     }
 
     public Long getId() {
@@ -149,6 +152,20 @@ public class Donation {
         this.phoneNumber = phoneNumber;
     }
 
+    @PrePersist
+    public void setCreated() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Timestamp(calendar.getTime().getTime()));
+        this.created = new Date(calendar.getTime().getTime());
+    }
+
+    @PreUpdate
+    public void setUpdated() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Timestamp(calendar.getTime().getTime()));
+        this.created = new Date(calendar.getTime().getTime());
+    }
+
     @Override
     public String toString() {
         return "Donation{" +
@@ -156,10 +173,10 @@ public class Donation {
                 ", quantity=" + quantity +
                 ", categories=" + categories +
                 ", institution=" + institution +
-                ", phoneNumber='" + phoneNumber + '\'' +
                 ", street='" + street + '\'' +
                 ", city='" + city + '\'' +
                 ", zipCode='" + zipCode + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
                 ", pickUpDate=" + pickUpDate +
                 ", pickUpTime=" + pickUpTime +
                 ", pickUpComment='" + pickUpComment + '\'' +
