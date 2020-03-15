@@ -19,7 +19,7 @@
 </header>
 <div class="slogan container container--90">
     <h2>
-        Witaj ${loggedUserName} :)
+        Witaj ${loggedUserName}
     </h2>
 </div>
 

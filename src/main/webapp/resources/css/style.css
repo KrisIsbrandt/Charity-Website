@@ -1170,6 +1170,17 @@ header nav ul li:last-of-type {
   background-image: url(../images/stats-bg.jpg);
 }
 
+.profile {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.profile--item {
+  text-align: left;
+  padding: 0 2vw;
+}
+
 /* line 4, scss/modules/_stats.scss */
 .stats .container {
   display: -webkit-box;

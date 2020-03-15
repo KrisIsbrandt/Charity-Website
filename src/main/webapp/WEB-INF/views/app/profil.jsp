@@ -18,13 +18,22 @@
     <%@include file="../fragments/header.jsp"%>
 </header>
 <div class="slogan container container--90">
-    <div class="slogan--item">
+    <div class="slogan--item form-group form-group--buttons">
         <h2>Twój profil</h2>
-
-        Imię: ${user.firstName}<br>
-        Nazwisko: ${user.lastName}<br>
-        Email: ${user.email}<br>
-        <h2></h2>
+        <section class="profile">
+            <div class="container container--85">
+                <div class="profile--item">
+                    <p style="width: 70%; font-size: 2.2rem; line-height: 2em; display: block;margin: auto; padding-left: 10em ">
+                        Imię: ${user.firstName}<br>
+                        Nazwisko: ${user.lastName}<br>
+                        Email: ${user.email}<br>
+                    </p>
+                </div>
+                <div class="stats--item" style="padding: 2em">
+                    <a href="<c:url value="/app/profil/update"/>" class="btn btn--without-border">Edytuj profil</a>
+                </div>
+            </div>
+        </section>
     </div>
 </div>
 
