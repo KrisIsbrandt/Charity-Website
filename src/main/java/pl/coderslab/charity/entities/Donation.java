@@ -35,11 +35,15 @@ public class Donation {
     @NotNull
     private List<Category> categories;
 
-
     @OneToOne
     @JoinColumn(name = "institution_id")
     @NotNull
     private Institution institution;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    @NotNull
+    private User user;
 
     @NotEmpty
     private String street;
@@ -62,6 +66,14 @@ public class Donation {
     private Date updated;
 
     public Donation() {
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Long getId() {
