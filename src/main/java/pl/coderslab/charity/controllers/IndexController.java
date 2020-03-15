@@ -2,15 +2,18 @@ package pl.coderslab.charity.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.coderslab.charity.entities.Institution;
 import pl.coderslab.charity.repositories.DonationRepository;
 import pl.coderslab.charity.repositories.InstitutionRepository;
 import pl.coderslab.charity.services.EmailService;
+import pl.coderslab.charity.services.LoggedUser;
 
 import java.util.List;
 
@@ -30,6 +33,14 @@ public class IndexController {
         this.institutionRepository = institutionRepository;
         this.donationRepository = donationRepository;
         this.emailService = emailService;
+    }
+
+    @ModelAttribute("loggedUserName")
+    private String showLoggedUserName(@AuthenticationPrincipal LoggedUser loggedUser){
+        if (loggedUser == null) {
+            return "";
+        }
+        return loggedUser.getUser().getFirstName();
     }
 
     @GetMapping({"", "/"})

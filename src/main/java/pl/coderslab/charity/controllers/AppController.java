@@ -13,6 +13,9 @@ public class AppController {
 
     @ModelAttribute("loggedUserName")
     private String showLoggedUserName(@AuthenticationPrincipal LoggedUser loggedUser){
+        if (loggedUser == null) {
+            return "";
+        }
         return loggedUser.getUser().getFirstName();
     }
 

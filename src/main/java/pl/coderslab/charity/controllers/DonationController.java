@@ -41,6 +41,9 @@ public class DonationController {
 
     @ModelAttribute("loggedUserName")
     private String showLoggedUserName(@AuthenticationPrincipal LoggedUser loggedUser){
+        if (loggedUser == null) {
+            return "";
+        }
         return loggedUser.getUser().getFirstName();
     }
 
@@ -55,8 +58,10 @@ public class DonationController {
     }
 
     @GetMapping("app/donation")
-    public String donationForm(Model model) {
-        model.addAttribute("donation", new Donation());
+    public String donationForm(@AuthenticationPrincipal LoggedUser loggedUser, Model model) {
+        Donation donation = new Donation();
+        donation.setUser(loggedUser.getUser());
+        model.addAttribute("donation", donation);
         return "app/donationForm";
     }
 
