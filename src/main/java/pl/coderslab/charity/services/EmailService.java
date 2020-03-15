@@ -6,5 +6,7 @@ public interface EmailService {
 
     void sendEmail(String sendTo, String subject, String content);
 
-    void sendVerificationEmail(User user, String confirmationUrl);
+    void sendVerificationEmail(User user, String token);
+
+    void sendResetPasswordEmail(User user, String token);
 }
