@@ -16,7 +16,7 @@
 <body>
 
 <header class="header--form-page">
-    <%@include file="../fragments/headerLoggedUser.jsp"%>
+    <%@include file="../fragments/header.jsp"%>
     <div class="slogan container container--90">
         <div class="slogan--item">
             <h1>
@@ -68,6 +68,7 @@
     <div class="form--steps-container">
         <div class="form--steps-counter">Krok <span>1</span>/4</div>
         <form:form action="donation" method="post" modelAttribute="donation">
+            <form:hidden path="user" value="${donation.user}"/>
             <!-- STEP 1: class .active is switching steps -->
             <div data-step="1" class="active">
                 <h3>Zaznacz co chcesz oddać:</h3>

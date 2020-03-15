@@ -15,7 +15,7 @@
 </head>
 <body>
 <header>
-    <%@include file="../fragments/headerLoggedUser.jsp"%>
+    <%@include file="../fragments/header.jsp"%>
 </header>
 <div class="slogan container container--90">
     <div class="slogan--item">

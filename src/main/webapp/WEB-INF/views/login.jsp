@@ -21,11 +21,11 @@
     <c:choose>
         <c:when test="${param.error=='not_active'}">
             <p class="error">Konto nieaktywne</p>
-            <a href="<c:url value="/resendToken"/>" class="btn btn--small btn--without-border reset-password">Aktywuj ponownie</a>
+            <a href="<c:url value="/resend/token"/>" class="btn btn--small btn--without-border reset-password">Aktywuj</a>
         </c:when>
         <c:when test="${param.error=='bad_credentials'}">
             <p class="error">Błąd logowania</p>
-            <a href="<c:url value="/resetPassword"/>" class="btn btn--small btn--without-border reset-password">Przypomnij hasło</a>
+            <a href="<c:url value="/resend/password"/>" class="btn btn--small btn--without-border reset-password">Przypomnij hasło</a>
         </c:when>
     </c:choose>
     <form method="post" action="<c:url value="/login"/>">

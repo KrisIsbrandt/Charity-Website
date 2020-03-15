@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -17,8 +18,9 @@
 </header>
 <div class="slogan container container--90">
     <h2>
-        Wysłaliśmy Ci wiadomość na twój adres email
+        ${message}
     </h2>
 </div>
+
 </body>
 </html>

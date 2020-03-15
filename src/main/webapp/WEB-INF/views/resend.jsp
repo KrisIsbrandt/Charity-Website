@@ -19,29 +19,29 @@
 <div class="slogan container container--90">
     <h2>
         <c:choose>
-            <c:when test="${(message == 'Taki kod weryfikacyjny nie istnieje') ||(message == 'Nieważny kod weryfikacyjny') || (param.q == 'not_active')}">Wyślij ponownie kod weryfikujący</c:when>
-            <c:when test="${param.q} == 'password_reset'">Wyślij link do zresetowania hasła</c:when>
-            <c:otherwise>${message}</c:otherwise>
+            <c:when test="${action == 'token'}">Wyślij ponownie kod weryfikujący</c:when>
+            <c:when test="${action == 'password'}">Wyślij link do zresetowania hasła</c:when>
+            <c:otherwise>${action}</c:otherwise>
         </c:choose>
     </h2>
     <div>
         <c:choose>
-            <c:when test="${(message == 'Taki kod weryfikacyjny nie istnieje') ||(message == 'Nieważny kod weryfikacyjny') || (param.q == 'not_active')}">
+            <c:when test="${action == 'token'}">
                 <section class="error-page">
-                    <form method="post" action="<c:url value="/resendToken"/>">
+                    <form method="post" action="<c:url value="/resend/token"/>">
                         <div class="form-group">
                             <input type="text" name="email" placeholder="Email" />
 
                         </div>
                         <div class="form-group">
-                            <button class="btn" type="submit">Aktywuj ponownie</button>
+                            <button class="btn" type="submit">Aktywuj</button>
                         </div>
                     </form>
                 </section>
             </c:when>
-            <c:when test="${param.q} == 'password_reset'">
+            <c:when test="${action == 'password'}">
                 <section class="error-page">
-                    <form method="post" action="<c:url value="/resetPassword"/>">
+                    <form method="post" action="<c:url value="/resend/password"/>">
                         <div class="form-group">
                             <input type="text" name="email" placeholder="Email" />
 
