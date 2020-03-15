@@ -6,9 +6,11 @@ import org.springframework.stereotype.Service;
 import pl.coderslab.charity.dto.UserDto;
 import pl.coderslab.charity.entities.User;
 import pl.coderslab.charity.entities.VerificationToken;
+import pl.coderslab.charity.entities.VerificationToken.Type;
 import pl.coderslab.charity.repositories.UserRepository;
 import pl.coderslab.charity.repositories.VerificationTokenRepository;
 
+import java.util.List;
 import java.util.UUID;
 
 import static pl.coderslab.charity.entities.User.Role.ROLE_USER;
@@ -30,7 +32,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveUser(User user) {
-//        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 
@@ -39,7 +40,6 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return user;
     }
-
 
     @Override
     public User registerNewUser(UserDto userDto) {
@@ -50,13 +50,14 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setRole(ROLE_USER);
         user.setActive(false);
+        user.setCreated();
 
         return userRepository.save(user);
     }
 
     @Override
-    public void createVerificationToken(User user, String token) {
-        VerificationToken verificationToken = new VerificationToken(user, token);
+    public void createVerificationToken(User user, String token, Type type) {
+        VerificationToken verificationToken = new VerificationToken(user, token, type);
         verificationTokenRepository.save(verificationToken);
     }
 
@@ -81,6 +82,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<VerificationToken> findAllTokensByUserAndType(User user, Type type) {
+        return verificationTokenRepository.findAllByUserAndType(user, type);
+    }
+
+    @Override
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
@@ -88,5 +94,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByVerificationToken(String token) {
         return verificationTokenRepository.findByToken(token).getUser();
+    }
+
+    @Override
+    public void expireVerificationToken(VerificationToken token) {
+        token.setExpired(true);
+        verificationTokenRepository.save(token);
     }
 }

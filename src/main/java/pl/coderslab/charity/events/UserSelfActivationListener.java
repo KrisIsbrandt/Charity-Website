@@ -4,32 +4,37 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 import pl.coderslab.charity.entities.User;
+import pl.coderslab.charity.entities.VerificationToken;
 import pl.coderslab.charity.services.EmailService;
 import pl.coderslab.charity.services.UserService;
 
+import java.util.List;
 import java.util.UUID;
 
 import static pl.coderslab.charity.entities.VerificationToken.Type.ACCOUNT_ACTIVATION;
 
 @Component
-public class RegistrationListener implements ApplicationListener<OnRegistrationCompleteEvent> {
+public class UserSelfActivationListener implements ApplicationListener<OnUserSelfActivation> {
 
     private final UserService userService;
     private final EmailService emailService;
 
     @Autowired
-    public RegistrationListener(UserService userService, EmailService emailService) {
+    public UserSelfActivationListener(UserService userService, EmailService emailService) {
         this.userService = userService;
         this.emailService = emailService;
     }
 
     @Override
-    public void onApplicationEvent(OnRegistrationCompleteEvent event) {
-        this.confirmRegistration(event);
+    public void onApplicationEvent(OnUserSelfActivation event) {
+        this.userSelfActivationHandler(event);
     }
 
-    private void confirmRegistration(OnRegistrationCompleteEvent event) {
+    private void userSelfActivationHandler(OnUserSelfActivation event) {
         User user = event.getUser();
+        List<VerificationToken> tokens = userService.findAllTokensByUserAndType(user, ACCOUNT_ACTIVATION);
+        tokens.forEach(userService::expireVerificationToken);
+
         String token = UUID.randomUUID().toString();
         userService.createVerificationToken(user, token, ACCOUNT_ACTIVATION);
         emailService.sendVerificationEmail(user, token);

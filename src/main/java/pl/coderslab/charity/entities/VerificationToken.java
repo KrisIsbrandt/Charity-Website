@@ -19,10 +19,9 @@ public class VerificationToken {
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
-
+    private Type type;
+    private Boolean expired;
     private Date created;
-    private Date updated;
-
     private Date expiryDate;
 
     private Date calculateExpirayDate(int expiryTimeInMinutes) {
@@ -32,14 +31,24 @@ public class VerificationToken {
         return new Date(calendar.getTime().getTime());
     }
 
-    public VerificationToken(User user, String token) {
+    public VerificationToken(User user, String token, Type type) {
         super();
         this.user = user;
         this.token = token;
+        this.type = type;
         this.expiryDate = calculateExpirayDate(EXPIRATION);
+        this.expired = false;
     }
 
     public VerificationToken() {
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 
     public static int getEXPIRATION() {
@@ -74,19 +83,16 @@ public class VerificationToken {
         return created;
     }
 
-    public Date getUpdated() {
-        return updated;
+    public Boolean getExpired() {
+        return expired;
+    }
+
+    public void setExpired(Boolean expired) {
+        this.expired = expired;
     }
 
     @PrePersist
     public void setCreated() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Timestamp(calendar.getTime().getTime()));
-        this.created = new Date(calendar.getTime().getTime());
-    }
-
-    @PreUpdate
-    public void setUpdated() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Timestamp(calendar.getTime().getTime()));
         this.created = new Date(calendar.getTime().getTime());
@@ -98,5 +104,10 @@ public class VerificationToken {
 
     public void setExpiryDate(int expiryTimeInMinutes) {
         this.expiryDate = calculateExpirayDate(expiryTimeInMinutes);
+    }
+
+    public enum Type {
+        ACCOUNT_ACTIVATION,
+        PASSWORD_RESET;
     }
 }
