@@ -53,6 +53,8 @@ public class AdminController {
     public String form(@RequestParam String type,
                        @RequestParam (required = false) Long id,
                        Model model) {
+        model.addAttribute("type", type);
+
         switch (type) {
             case "institution":
                 Institution institution = new Institution();
@@ -112,9 +114,10 @@ public class AdminController {
     }
 
     @PostMapping("/institution")
-    public String addInstitution(@Valid Institution institution, BindingResult result) {
+    public String addInstitution(@Valid Institution institution, BindingResult result, Model model) {
         if(result.hasErrors()) {
-            return "/admin/form?type=institution";
+            model.addAttribute("type", "institution");
+            return "admin/adminForm";
         }
         institutionRepository.save(institution);
         return "redirect:/admin/institution";
@@ -137,9 +140,10 @@ public class AdminController {
     }
 
     @PostMapping("/category")
-    public String addCategory(@Valid Category category, BindingResult result) {
+    public String addCategory(@Valid Category category, BindingResult result, Model model) {
         if(result.hasErrors()) {
-            return "/admin/form?type=category";
+            model.addAttribute("type", "category");
+            return "admin/adminForm";
         }
         categoryRepository.save(category);
         return "redirect:/admin/category";
@@ -150,6 +154,7 @@ public class AdminController {
         categoryRepository.deleteById(id);
         return "redirect:/admin/category";
     }
+
 
     /**
      * User management
@@ -162,9 +167,10 @@ public class AdminController {
     }
 
     @PostMapping("/user")
-    public String addUser(@Valid User user, BindingResult result) {
+    public String addUser(@Valid User user, BindingResult result, Model model) {
         if(result.hasErrors()) {
-            return "/admin/form?type=user";
+            model.addAttribute("type", "user");
+            return "admin/adminForm";
         }
         userService.saveUser(user);
         return "redirect:/admin/user";
@@ -184,8 +190,7 @@ public class AdminController {
         //You cannot change your own state
         if (!loggedUser.getUser().getId().equals(id)) {
 
-            User user = userRepository.findById(id)
-                    .orElse(null);
+            User user = userRepository.findById(id).orElse(null);
             if (user != null) {
                 user.setActive(!user.isActive());
                 user = userService.hashPassword(user);
@@ -194,6 +199,7 @@ public class AdminController {
         }
         return "redirect:/admin/user";
     }
+
 
     /**
      * Donation management
@@ -208,8 +214,13 @@ public class AdminController {
     @PostMapping("/donation")
     public String addDonation(@Valid Donation donation, BindingResult result, Model model) {
         if (result.hasErrors()){
-            model.addAttribute("donation", donation);
-            return "/admin/form?type=donation";
+            model.addAttribute("type", "donation");
+            List<Institution> institutions = institutionRepository.findAll();
+            model.addAttribute("institutions", institutions);
+
+            List<Category> categories = categoryRepository.findAll();
+            model.addAttribute("categories", categories);
+            return "admin/adminForm";
         }
 
         donationRepository.save(donation);
@@ -219,6 +230,22 @@ public class AdminController {
     @GetMapping("/donation/delete/{id}")
     public String deleteDonation(@PathVariable Long id) {
         donationRepository.deleteById(id);
+        return "redirect:/admin/donation";
+    }
+
+    @GetMapping("/donation/confirm/pickup/{id}")
+    public String confirmDonationPickUp(@PathVariable Long id) {
+        Donation donation = donationRepository.getOne(id);
+        donation.setPickedUp(!donation.isPickedUp());
+        donationRepository.save(donation);
+        return "redirect:/admin/donation";
+    }
+
+    @GetMapping("/donation/confirm/delivery/{id}")
+    public String confirmDonationDelivery(@PathVariable Long id) {
+        Donation donation = donationRepository.getOne(id);
+        donation.setDeliveredToInstitution(!donation.isDeliveredToInstitution());
+        donationRepository.save(donation);
         return "redirect:/admin/donation";
     }
 }

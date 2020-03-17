@@ -42,7 +42,6 @@ public class Donation {
 
     @OneToOne
     @JoinColumn(name = "user_id")
-    @NotNull
     private User user;
 
     @NotEmpty
@@ -64,6 +63,8 @@ public class Donation {
 
     private Date created;
     private Date updated;
+    private boolean pickedUp = false;
+    private boolean deliveredToInstitution = false;
 
     public Donation() {
     }
@@ -178,6 +179,22 @@ public class Donation {
         this.created = new Date(calendar.getTime().getTime());
     }
 
+    public boolean isPickedUp() {
+        return pickedUp;
+    }
+
+    public void setPickedUp(boolean pickedUp) {
+        this.pickedUp = pickedUp;
+    }
+
+    public boolean isDeliveredToInstitution() {
+        return deliveredToInstitution;
+    }
+
+    public void setDeliveredToInstitution(boolean deliveredToInstitution) {
+        this.deliveredToInstitution = deliveredToInstitution;
+    }
+
     @Override
     public String toString() {
         return "Donation{" +
@@ -185,6 +202,7 @@ public class Donation {
                 ", quantity=" + quantity +
                 ", categories=" + categories +
                 ", institution=" + institution +
+                ", user=" + user +
                 ", street='" + street + '\'' +
                 ", city='" + city + '\'' +
                 ", zipCode='" + zipCode + '\'' +
@@ -192,6 +210,10 @@ public class Donation {
                 ", pickUpDate=" + pickUpDate +
                 ", pickUpTime=" + pickUpTime +
                 ", pickUpComment='" + pickUpComment + '\'' +
+                ", created=" + created +
+                ", updated=" + updated +
+                ", pickedUp=" + pickedUp +
+                ", deliveredToInstitution=" + deliveredToInstitution +
                 '}';
     }
 }

@@ -2,6 +2,7 @@ package pl.coderslab.charity.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -17,9 +18,9 @@ public class User {
 
     @NotNull
     private Role role;
-
+    @NotEmpty
     private String firstName;
-
+    @NotEmpty
     private String lastName;
 
     @NotNull

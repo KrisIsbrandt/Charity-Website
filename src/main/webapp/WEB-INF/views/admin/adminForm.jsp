@@ -16,79 +16,77 @@
 <%@include file="../fragments/headerAdmin.jsp"%>
 <body>
     <c:choose>
-        <c:when test="${param.type=='institution'}">
+        <c:when test="${type=='institution'}">
             <h3>Instytucja</h3>
             <form:form action="/admin/institution" method="post" modelAttribute="institution">
                 Nazwa instytucji:<br>
-                <form:input type="text" path="name"/><br><br>
+                <form:input type="text" path="name"/>
+                <form:errors path="name" cssClass="error"/><br><br>
                 Cel i misja instytucji:<br>
                 <form:textarea rows="3" cols="50" path="description"/><br>
                 <form:hidden path="id"/>
                 <input type="submit" value="Wyślij"><br>
-                <form:errors path="name" cssClass="error"/>
 
             </form:form>
         </c:when>
 
-        <c:when test="${param.type=='category'}">
+        <c:when test="${type=='category'}">
             <h3>Kategoria darów</h3>
             <form:form action="/admin/category" method="post" modelAttribute="category">
                 Nazwa:<br>
-                <form:input type="text" path="name"/><br>
+                <form:input type="text" path="name"/>
+                <form:errors path="name" cssClass="error"/><br>
                 <form:hidden path="id"/>
                 <input type="submit" value="Wyślij"><br>
-                <form:errors path="name" cssClass="error"/>
             </form:form>
         </c:when>
 
-        <c:when test="${param.type=='user'}">
+        <c:when test="${type=='user'}">
             <h3>Użytkownik</h3>
             <form:form action="/admin/user" method="post" modelAttribute="user">
-                Imię:<br>
-                <form:input type="text" path="firstName"/><br><br>
-                Nazwisko:<br>
-                <form:input type="text" path="lastName"/><br><br>
-                Email:<br>
-                <form:input type="email" path="email"/><br><br>
-                Hasło:<br>
-                <form:input type="password" path="password"/><br><br>
-
                 Typ użytkownika:<br>
-               <form:select path="role">
-                   <form:option value="${user.role}" label="--wybierz--"/>
-                   <form:options items="${roles}"/>
-               </form:select>
+                <form:select path="role">
+                    <form:option value="${user.role}" label="--wybierz--"/>
+                    <form:options items="${roles}"/>
+                </form:select><form:errors path="role" cssClass="error"/>
                 <br><br>
                 <form:hidden path="id"/>
-                <input type="submit" value="Wyślij"><br>
 
-                <form:errors path="role" cssClass="error"/><br>
-                <form:errors path="email" cssClass="error"/><br>
-                <form:errors path="password" cssClass="error"/><br>
+                Imię:<br>
+                <form:input type="text" path="firstName"/><form:errors path="firstName" cssClass="error"/><br><br>
+                Nazwisko:<br>
+                <form:input type="text" path="lastName"/><form:errors path="lastName" cssClass="error"/><br><br>
+                Email:<br>
+                <form:input type="email" path="email"/><form:errors path="email" cssClass="error"/><br><br>
+                Hasło:<br>
+                <form:input type="password" path="password"/><form:errors path="password" cssClass="error"/><br><br>
+
+
+                <input type="submit" value="Wyślij"><br>
             </form:form>
         </c:when>
 
-        <c:when test="${param.type=='donation'}">
+        <c:when test="${type=='donation'}">
             <h3>Dar</h3>
             <form:form action="/admin/donation" method="post" modelAttribute="donation">
                 <strong>Obdarowana instytucja:</strong><br>
                 <form:select path="institution">
                     <form:option value="${donation.institution}" label="--wybierz--"/><br>
                     <form:options items="${institutions}" itemValue="id" itemLabel="name"/>
-                </form:select>  <br><br>
+                </form:select><form:errors path="institution" cssClass="error"/><br><br>
 
                 <strong>Kategoria:</strong><br>
                 <form:checkboxes path="categories" items="${categories}"
-                                 itemLabel="name" itemValue="id"/><br><br>
+                                 itemLabel="name" itemValue="id"/><form:errors path="categories" cssClass="error"/><br><br>
 
                 <strong>Ilość:</strong><br>
-                <form:input type="number" path="quantity"/><br><br>
+                <form:input type="number" path="quantity"/><form:errors path="quantity" cssClass="error"/><br><br>
 
                 <strong>Dane adresowe</strong><br>
 
-                Ulica: <form:input path="street"/><br>
-                Misto: <form:input path="city"/><br>
-                Kod pocztowy: <form:input path="zipCode"/><br>
+                Ulica: <form:input path="street"/><form:errors path="street" cssClass="error"/><br>
+                Misto: <form:input path="city"/><form:errors path="city" cssClass="error"/><br>
+                Kod pocztowy: <form:input path="zipCode"/><form:errors path="zipCode" cssClass="error"/><br>
                 Numer telefonu: <form:input path="phoneNumber"/><br><br>
 
                 <strong>Dane odbioru</strong><br>
@@ -99,12 +97,6 @@
 
                 <form:hidden path="id"/>
                 <input type="submit" value="Wyślij"><br>
-                <form:errors path="quantity" cssClass="error"/><br>
-                <form:errors path="categories" cssClass="error"/><br>
-                <form:errors path="institution" cssClass="error"/><br>
-                <form:errors path="street" cssClass="error"/><br>
-                <form:errors path="city" cssClass="error"/>
-                <form:errors path="zipCode" cssClass="error"/>
             </form:form>
         </c:when>
 

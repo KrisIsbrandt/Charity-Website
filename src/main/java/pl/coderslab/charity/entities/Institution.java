@@ -64,12 +64,6 @@ public class Institution {
 
     @Override
     public String toString() {
-        return "Institution{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", created=" + created +
-                ", updated=" + updated +
-                '}';
+        return name;
     }
 }

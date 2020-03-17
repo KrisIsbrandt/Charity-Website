@@ -25,6 +25,8 @@
         <th>Adres odbioru</th>
         <th>Czas odbioru</th>
         <th>Komentarz</th>
+        <th>Odebrane?</th>
+        <th>Dostarczone?</th>
         <th>Akcje</th>
     </tr>
     <c:forEach items="${donations}" var="i">
@@ -35,9 +37,13 @@
             <td>${i.street}, ${i.zipCode} ${i.city}</td>
             <td>${i.pickUpDate} ${i.pickUpTime}</td>
             <td>${i.pickUpComment}</td>
+            <td>${i.pickedUp}</td>
+            <td>${i.deliveredToInstitution}</td>
             <td>
-                <a href="<c:url value="/admin/form?type=donation&id=${i.id}"/>">edytuj</a>
-                <a href="<c:url value="/admin/donation/delete/${i.id}"/>"onclick="return confirm('Czy na pewno chcesz to usunać?');">usuń</a>
+                <a href="<c:url value="/admin/form?type=donation&id=${i.id}"/>">edytuj</a><br>
+                <a href="<c:url value="/admin/donation/delete/${i.id}"/>"onclick="return confirm('Czy na pewno chcesz to usunać?');">usuń</a><br>
+                <a href="<c:url value="/admin/donation/confirm/pickup/${i.id}"/>">potwierdź odbiór</a><br>
+                <a href="<c:url value="/admin/donation/confirm/delivery/${i.id}"/>">potwierdź dostarczenie</a>
             </td>
         </tr>
     </c:forEach>

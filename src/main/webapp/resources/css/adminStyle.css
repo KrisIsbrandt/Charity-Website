@@ -43,4 +43,12 @@ th {
     background-color: #f38630;
 }
 
+.error {
+    color: #FF0000;
+    font-weight: 700;
+    text-decoration: underline solid;
+    font-size:  1rem;
+    margin-bottom: 1rem;
+
+}
 
