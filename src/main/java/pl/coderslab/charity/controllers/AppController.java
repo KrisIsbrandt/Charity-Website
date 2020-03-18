@@ -7,22 +7,28 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import pl.coderslab.charity.dto.UserDto;
+import pl.coderslab.charity.entities.Donation;
 import pl.coderslab.charity.entities.User;
+import pl.coderslab.charity.repositories.DonationRepository;
 import pl.coderslab.charity.services.LoggedUser;
 import pl.coderslab.charity.services.UserService;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 public class AppController {
 
     private final UserService userService;
+    private final DonationRepository donationRepository;
 
     @Autowired
-    public AppController(UserService userService) {
+    public AppController(UserService userService, DonationRepository donationRepository) {
         this.userService = userService;
+        this.donationRepository = donationRepository;
     }
 
     @ModelAttribute("loggedUserName")
@@ -36,14 +42,13 @@ public class AppController {
     @GetMapping("/app")
     public String HomePage(){
         return "app/homepage";
-
     }
 
     //profil
     @GetMapping("/app/profil")
     public String getProfil(@AuthenticationPrincipal LoggedUser loggedUser, Model model) {
         model.addAttribute("user", loggedUser.getUser());
-        return "/app/profil";
+        return "app/profil";
     }
 
     @GetMapping("/app/profil/update")
@@ -54,7 +59,7 @@ public class AppController {
         userDto.setLastName(loggedUser.getUser().getLastName());
         userDto.setPassword("NON_EMPTY_STRING");
         model.addAttribute("userDto", userDto);
-        return "/app/profilForm";
+        return "app/profilForm";
     }
 
     @PostMapping("/app/profil/update")
@@ -62,7 +67,7 @@ public class AppController {
                                @ModelAttribute("userDto") @Valid UserDto userDto,
                                BindingResult result){
         if (result.hasErrors()) {
-            return "/app/profilForm";
+            return "app/profilForm";
         }
         User user = loggedUser.getUser();
         user.setEmail(userDto.getEmail());
@@ -72,10 +77,20 @@ public class AppController {
         return "redirect:/app/profil";
     }
 
-    //my_donations
-    @GetMapping("/app/my_donations")
-    public String getDonations(){
+    //myDonations
+    @GetMapping("/app/donations")
+    public String getDonations(@AuthenticationPrincipal LoggedUser loggedUser,
+                               Model model){
+        List<Donation> donations = donationRepository.findAllByUser(loggedUser.getUser());
+        model.addAttribute("donations", donations);
+        return "app/donations";
+    }
 
-        return "/app/myDonations";
+    @GetMapping("app//donation/confirm/pickup/{id}")
+    public String confirmDonationPickUp(@PathVariable Long id) {
+        Donation donation = donationRepository.getOne(id);
+        donation.setPickedUp(!donation.isPickedUp());
+        donationRepository.save(donation);
+        return "redirect:/app/donations";
     }
 }

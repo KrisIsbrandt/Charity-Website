@@ -66,12 +66,14 @@ public class DonationController {
     }
 
     @PostMapping("app/donation")
-    public String donationFormReceived(@Valid Donation donation, BindingResult result) {
+    public String donationFormReceived(@Valid Donation donation, BindingResult result,
+                                       @AuthenticationPrincipal LoggedUser loggedUser) {
         if(result.hasErrors()){
             return "app/donationForm";
         }
+        donation.setUser(loggedUser.getUser());
         donationRepository.save(donation);
 
-        return "app/donationFormConfirmation";
+        return "emailSendConfirmation";
     }
 }

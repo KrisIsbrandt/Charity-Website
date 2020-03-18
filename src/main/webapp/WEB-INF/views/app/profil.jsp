@@ -37,7 +37,7 @@
     </div>
 </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="../../resources/js/app.js"></script>
+
+<%@include file="../fragments/footer.jsp"%>
 </body>
 </html>
