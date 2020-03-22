@@ -13,10 +13,15 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>charity</name>
     <description>Charity project, created with love in CodersLab</description>
+    <configuration>
+        <source>1.7</source>
+        <target>1.7</target>
+        <encoding>UTF-8</encoding>
+    </configuration>
+
 
     <properties>
         <java.version>1.11</java.version>
-        <maven.compiler.release>7</maven.compiler.release>
     </properties>
 
     <dependencies>
