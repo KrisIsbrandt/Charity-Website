@@ -13,7 +13,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static pl.coderslab.charity.entities.Donation.State.*;
+import static pl.coderslab.charity.entities.Donation.State.WAITING_FOR_PICK_UP;
 
 @Entity
 @Table(name = "donation")
@@ -64,12 +64,6 @@ public class Donation {
     private Date created;
     private Date updated;
     private State state = WAITING_FOR_PICK_UP;
-
-    public enum State {
-        WAITING_FOR_PICK_UP,
-        PICKED_UP,
-        DELIVERED;
-    }
 
     public Donation() {
     }
@@ -202,5 +196,11 @@ public class Donation {
                 ", updated=" + updated +
                 ", state=" + state +
                 '}';
+    }
+
+    public enum State {
+        WAITING_FOR_PICK_UP,
+        PICKED_UP,
+        DELIVERED;
     }
 }

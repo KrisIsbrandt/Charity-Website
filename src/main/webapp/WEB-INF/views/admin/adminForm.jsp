@@ -92,7 +92,6 @@
                 <strong>Dane odbioru</strong><br>
 
                 Data: <form:input type="date" path="pickUpDate"/><br>
-                Czas: <form:input type="time" path="pickUpTime" step="600"/><br>
                 Komentarz: <br><form:textarea path="pickUpComment" rows="5"/><br><br>
 
                 <form:hidden path="id"/>

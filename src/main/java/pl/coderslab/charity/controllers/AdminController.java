@@ -21,6 +21,9 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
+import static pl.coderslab.charity.entities.Donation.State.DELIVERED;
+import static pl.coderslab.charity.entities.Donation.State.PICKED_UP;
+
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -236,7 +239,7 @@ public class AdminController {
     @GetMapping("/donation/confirm/pickup/{id}")
     public String confirmDonationPickUp(@PathVariable Long id) {
         Donation donation = donationRepository.getOne(id);
-        donation.setPickedUp(!donation.isPickedUp());
+        donation.setState(PICKED_UP);
         donationRepository.save(donation);
         return "redirect:/admin/donation";
     }
@@ -244,7 +247,7 @@ public class AdminController {
     @GetMapping("/donation/confirm/delivery/{id}")
     public String confirmDonationDelivery(@PathVariable Long id) {
         Donation donation = donationRepository.getOne(id);
-        donation.setDeliveredToInstitution(!donation.isDeliveredToInstitution());
+        donation.setState(DELIVERED);
         donationRepository.save(donation);
         return "redirect:/admin/donation";
     }

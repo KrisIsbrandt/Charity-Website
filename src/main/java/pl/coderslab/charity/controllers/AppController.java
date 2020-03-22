@@ -19,6 +19,8 @@ import pl.coderslab.charity.services.UserService;
 import javax.validation.Valid;
 import java.util.List;
 
+import static pl.coderslab.charity.entities.Donation.State.PICKED_UP;
+
 @Controller
 public class AppController {
 
@@ -89,7 +91,7 @@ public class AppController {
     @GetMapping("app//donation/confirm/pickup/{id}")
     public String confirmDonationPickUp(@PathVariable Long id) {
         Donation donation = donationRepository.getOne(id);
-        donation.setPickedUp(!donation.isPickedUp());
+        donation.setState(PICKED_UP);
         donationRepository.save(donation);
         return "redirect:/app/donations";
     }

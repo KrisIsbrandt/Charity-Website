@@ -36,7 +36,7 @@
         </section>
     </div>
 </div>
-
+<br><br>
 
 <%@include file="../fragments/footer.jsp"%>
 </body>

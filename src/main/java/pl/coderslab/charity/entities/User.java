@@ -107,7 +107,7 @@ public class User {
     public void setUpdated() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Timestamp(calendar.getTime().getTime()));
-        this.created = new Date(calendar.getTime().getTime());
+        this.updated = new Date(calendar.getTime().getTime());
     }
 
     @Override

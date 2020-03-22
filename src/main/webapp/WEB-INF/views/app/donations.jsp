@@ -31,7 +31,7 @@
             <h2>Jeszcze nic nie podarowałeś</h2>
         </c:when>
             <c:otherwise>
-                <table id="table" class="table table-hover">
+                <table id="table" class="table table-hover" style="font-size: medium">
                     <tr>
                         <th>Obdarowna instytucja</th>
                         <th>Kategoria</th>
@@ -62,7 +62,8 @@
         </section>
     </div>
 </div>
-
+<br>
+<br>
 
 <%@include file="../fragments/footer.jsp"%>
 </body>
