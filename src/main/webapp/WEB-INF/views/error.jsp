@@ -18,7 +18,10 @@
 </header>
 <div class="slogan container container--90">
     <h2>
-        ${message}
+        <c:choose>
+            <c:when test="${not empty message}">${message}</c:when>
+            <c:otherwise>Coś poszło nie tak</c:otherwise>
+        </c:choose>
     </h2>
 </div>
 
