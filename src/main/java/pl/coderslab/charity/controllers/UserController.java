@@ -62,6 +62,7 @@ public class UserController {
         user.setPassword("admin");
         user.setRole(User.Role.ROLE_ADMIN);
         user.setActive(true);
+        user = userService.hashPassword(user);
         userService.saveUser(user);
         return "Admin created " + user.toString();
     }
