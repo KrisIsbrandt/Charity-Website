@@ -74,6 +74,6 @@ public class DonationController {
         donation.setUser(loggedUser.getUser());
         donationRepository.save(donation);
 
-        return "emailSendConfirmation";
+        return "redirect:/app/donations";
     }
 }

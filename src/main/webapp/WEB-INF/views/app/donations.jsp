@@ -11,7 +11,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="<c:url value="../../../resources/css/style.css"/>" />
+
 </head>
 <body>
 <header>
@@ -29,16 +31,15 @@
             <h2>Jeszcze nic nie podarowałeś</h2>
         </c:when>
             <c:otherwise>
-                <table id="table" style="width:100%">
+                <table id="table" class="table table-hover">
                     <tr>
-                        <th onclick="sortTable(0)">Obdarowna instytucja</th>
-                        <th onclick="sortTable(1)">Kategoria</th>
-                        <th onclick="sortTable(2)">Ilość</th>
-                        <th onclick="sortTable(3)">Adres odbioru</th>
-                        <th onclick="sortTable(4)">Czas odbioru</th>
-                        <th onclick="sortTable(5)">Komentarz</th>
-                        <th onclick="sortTable(6)">Odebrane?</th>
-                        <th onclick="sortTable(7)">Dostarczone?</th>
+                        <th>Obdarowna instytucja</th>
+                        <th>Kategoria</th>
+                        <th>Ilość</th>
+                        <th>Adres odbioru</th>
+                        <th>Data odbioru</th>
+                        <th>Komentarz</th>
+                        <th>Status</th>
                         <th>Akcje</th>
                     </tr>
                     <c:forEach items="${donations}" var="i">
@@ -47,10 +48,9 @@
                             <td>${i.categories}</td>
                             <td>${i.quantity}</td>
                             <td>${i.street}, ${i.zipCode} ${i.city}</td>
-                            <td>${i.pickUpDate} ${i.pickUpTime}</td>
+                            <td>${i.pickUpDate}</td>
                             <td>${i.pickUpComment}</td>
-                            <td>${i.pickedUp}</td>
-                            <td>${i.deliveredToInstitution}</td>
+                            <td>${i.state}</td>
                             <td>
                                 <a href="<c:url value="/app/donation/confirm/pickup/${i.id}"/>">potwierdź odbiór</a><br>
                             </td>

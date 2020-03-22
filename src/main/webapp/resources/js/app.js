@@ -167,7 +167,6 @@ document.addEventListener("DOMContentLoaded", function() {
        * Form Input Fields
        */
       var category =updateSelectedCategories();
-      var quantity = $('#quantity').val();
       var institution = updateSelectedInstitution();
 
       var street = $('#street').val();
@@ -176,11 +175,11 @@ document.addEventListener("DOMContentLoaded", function() {
       var phoneNumber = $('#phoneNumber').val();
 
       var pickUpDate = $('#pickUpDate').val();
-      var pickUpTime = $('#pickUpTime').val();
+      // var pickUpTime = $('#pickUpTime').val();
       var pickUpComment = $('#pickUpComment').val();
 
       if (this.currentStep >= 5) {
-        $('#summary--1').text(quantity + ' worki z ' + category);
+        $('#summary--1').text(category);
         $('#summary--2').text(institution);
 
         var addressDetails = makeList(street, city, zipCode, phoneNumber);
@@ -189,7 +188,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
         if (pickUpComment.length === 0) {pickUpComment = 'Brak uwag'};
-        var pickUpDetails = makeList(pickUpDate, pickUpTime, pickUpComment);
+        var pickUpDetails = makeList(pickUpDate, pickUpComment);
         $('#summary--pickUpTime').empty();
         $('#summary--pickUpTime').append(pickUpDetails);
       }
@@ -207,7 +206,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     categoryCheckboxes.each(function(i, el) {
       if($(this).prop('checked')) {
-        selectedCategories.push($(this).next().next().text());
+        selectedCategories.push($(this).next().text());
       }
     });
     return selectedCategories.join(", ");
@@ -215,11 +214,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
   function updateSelectedInstitution() {
     var selectedInstitution = '';
-    var institutionRadio = $('input[name=institutions]');
+    var institutionRadio = $('input[name=institution]');
 
     institutionRadio.each(function(i, el) {
       if ($(this).prop('checked')) {
-          selectedInstitution = $(this).next().next().text().split('\n')[1].trim();
+          selectedInstitution = $(this).next().text();
       }
     });
     return selectedInstitution;
@@ -232,5 +231,4 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     return list;
   }
-
 });

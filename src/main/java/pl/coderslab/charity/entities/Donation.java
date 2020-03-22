@@ -9,10 +9,11 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import static pl.coderslab.charity.entities.Donation.State.*;
 
 @Entity
 @Table(name = "donation")
@@ -32,7 +33,7 @@ public class Donation {
     @JoinTable(name = "donation_category",
             joinColumns = @JoinColumn(name = "donation_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
-    @NotNull
+    @NotEmpty
     private List<Category> categories;
 
     @OneToOne
@@ -54,17 +55,21 @@ public class Donation {
     private String zipCode;
     private String phoneNumber;
 
+    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate pickUpDate;
 
-    @DateTimeFormat(pattern = "HH:mm")
-    private LocalTime pickUpTime;
     private String pickUpComment;
 
     private Date created;
     private Date updated;
-    private boolean pickedUp = false;
-    private boolean deliveredToInstitution = false;
+    private State state = WAITING_FOR_PICK_UP;
+
+    public enum State {
+        WAITING_FOR_PICK_UP,
+        PICKED_UP,
+        DELIVERED;
+    }
 
     public Donation() {
     }
@@ -141,14 +146,6 @@ public class Donation {
         this.pickUpDate = pickUpDate;
     }
 
-    public LocalTime getPickUpTime() {
-        return pickUpTime;
-    }
-
-    public void setPickUpTime(LocalTime pickUpTime) {
-        this.pickUpTime = pickUpTime;
-    }
-
     public String getPickUpComment() {
         return pickUpComment;
     }
@@ -179,20 +176,12 @@ public class Donation {
         this.created = new Date(calendar.getTime().getTime());
     }
 
-    public boolean isPickedUp() {
-        return pickedUp;
+    public State getState() {
+        return state;
     }
 
-    public void setPickedUp(boolean pickedUp) {
-        this.pickedUp = pickedUp;
-    }
-
-    public boolean isDeliveredToInstitution() {
-        return deliveredToInstitution;
-    }
-
-    public void setDeliveredToInstitution(boolean deliveredToInstitution) {
-        this.deliveredToInstitution = deliveredToInstitution;
+    public void setState(State state) {
+        this.state = state;
     }
 
     @Override
@@ -208,12 +197,10 @@ public class Donation {
                 ", zipCode='" + zipCode + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", pickUpDate=" + pickUpDate +
-                ", pickUpTime=" + pickUpTime +
                 ", pickUpComment='" + pickUpComment + '\'' +
                 ", created=" + created +
                 ", updated=" + updated +
-                ", pickedUp=" + pickedUp +
-                ", deliveredToInstitution=" + deliveredToInstitution +
+                ", state=" + state +
                 '}';
     }
 }

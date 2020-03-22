@@ -72,20 +72,14 @@
             <div data-step="1" class="active">
                 <h3>Zaznacz co chcesz oddać:</h3>
 
-                <c:forEach items="${categories}" var="category">
-                    <div class="form-group form-group--checkbox">
-                        <label>
-                            <input type="checkbox"
-                                   name="categories"
-                                   value="${category.id}"
-                                   id="categories${category.id}"
-                            />
-                            <span class="checkbox"></span>
-                            <span class="description">${category.name}</span>
-                        </label>
-                    </div>
-                </c:forEach>
-                <form:errors path="categories" cssClass="error"/>
+                <div>
+                    <form:checkboxes element="div class='form-group form-group--checkbox'"
+                                     path="categories"
+                                     items="${categories}"
+                                     itemLabel="name"
+                                     itemValue="id"/>
+                </div><br>
+                <form:errors path="categories" cssClass="error"/><br>
 
                 <div class="form-group form-group--buttons">
                     <button type="button" class="btn next-step">Dalej</button>
@@ -114,21 +108,11 @@
             <div data-step="3">
                 <h3>Wybierz organizacje, której chcesz pomóc:</h3>
 
-                <c:forEach items="${institutions}" var="institution">
-                    <div class="form-group form-group--checkbox">
-                        <label>
-                            <input type="radio"
-                                   name="institution"
-                                   value="${institution.id}"
-                            />
-                            <span class="checkbox radio"></span>
-                            <span class="description">
-                                <div class="title">${institution.name}</div>
-                                <div class="subtitle">${institution.description}</div>
-                            </span>
-                        </label>
-                    </div>
-                </c:forEach>
+                <form:radiobuttons items="${institutions}"
+                                   path="institution"
+                                   element="div class='form-group form-group--checkbox'"
+                                   itemLabel="name"
+                                   itemValue="id"/>
                 <form:errors path="institution" cssClass="error"/>
 
                 <div class="form-group form-group--buttons">
@@ -146,26 +130,30 @@
                         <h4>Adres odbioru</h4>
                         <div class="form-group form-group--inline">
                             <label>
-                                Ulica <form:input path="street"/><form:errors path="street" cssClass="error"/>
+                                Ulica <form:input path="street"/>
                             </label>
+                            <form:errors cssStyle="padding-left: 7.5em;" path="street" cssClass="error"/>
                         </div>
 
                         <div class="form-group form-group--inline">
                             <label>
-                                Miasto <form:input path="city"/><form:errors path="city" cssClass="error"/>
+                                Miasto <form:input path="city"/>
                             </label>
+                            <form:errors cssStyle="padding-left: 7.5em;" path="city" cssClass="error"/>
                         </div>
 
                         <div class="form-group form-group--inline">
                             <label>
-                                Kod pocztowy <form:input path="zipCode"/><form:errors path="zipCode" cssClass="error"/>
+                                Kod pocztowy <form:input path="zipCode"/>
                             </label>
+                            <form:errors cssStyle="padding-left: 7.5em;" path="zipCode" cssClass="error"/>
                         </div>
 
                         <div class="form-group form-group--inline">
                             <label>
-                                Numer telefonu <form:input path="phoneNumber"/><form:errors path="phoneNumber" cssClass="error"/>
+                                Numer telefonu <form:input path="phoneNumber"/>
                             </label>
+                            <form:errors cssStyle="padding-left: 7.5em;" path="phoneNumber" cssClass="error"/>
                         </div>
                     </div>
 
@@ -173,14 +161,9 @@
                         <h4>Termin odbioru</h4>
                         <div class="form-group form-group--inline">
                             <label>
-                                Data <form:input type="date" path="pickUpDate"/><form:errors path="pickUpDate" cssClass="error"/>
+                                Data <form:input type="date" path="pickUpDate"/>
                             </label>
-                        </div>
-
-                        <div class="form-group form-group--inline">
-                            <label>
-                                Godzina <form:input type="time" path="pickUpTime" step="600"/><form:errors path="pickUpTime" cssClass="error"/>
-                            </label>
+                            <form:errors cssStyle="padding-left: 8em;" path="pickUpDate" cssClass="error"/>
                         </div>
 
                         <div class="form-group form-group--inline">
