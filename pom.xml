@@ -15,7 +15,8 @@
     <description>Charity project, created with love in CodersLab</description>
 
     <properties>
-        <java.version>11</java.version>
+        <java.version>1.11</java.version>
+        <maven.compiler.release>7</maven.compiler.release>
     </properties>
 
     <dependencies>
