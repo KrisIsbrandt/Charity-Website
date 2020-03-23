@@ -5,14 +5,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import pl.coderslab.charity.entities.Institution;
 import pl.coderslab.charity.repositories.DonationRepository;
 import pl.coderslab.charity.repositories.InstitutionRepository;
 import pl.coderslab.charity.services.EmailService;
 import pl.coderslab.charity.services.LoggedUser;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 
@@ -89,11 +91,5 @@ public class IndexController {
     public String contactPage(){
         //TODO contact page
         return "redirect:/";
-    }
-
-    @GetMapping("/test")
-    @ResponseBody
-    public String test(HttpServletRequest request) {
-        return request.getScheme() + "://" + request.getServerName();
     }
 }

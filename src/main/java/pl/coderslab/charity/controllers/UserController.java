@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.WebRequest;
 import pl.coderslab.charity.dto.UserDto;
 import pl.coderslab.charity.entities.User;
 import pl.coderslab.charity.entities.VerificationToken;
@@ -20,6 +19,7 @@ import pl.coderslab.charity.services.EmailServiceImpl;
 import pl.coderslab.charity.services.LoggedUser;
 import pl.coderslab.charity.services.UserService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Calendar;
 
@@ -81,7 +81,7 @@ public class UserController {
     @PostMapping("/register")
     public String registerPost(@ModelAttribute("userDto") @Valid UserDto userDto,
                                BindingResult result,
-                               WebRequest request) {
+                               HttpServletRequest request) {
         User user = userService.findByEmail(userDto.getEmail());
 
         //User exists
@@ -99,7 +99,7 @@ public class UserController {
         }
 
         user = userService.registerNewUser(userDto);
-        String appUrl = request.getContextPath();
+        String appUrl = request.getScheme() + "://" + request.getServerName();
         eventPublisher.publishEvent(new OnRegistrationCompleteEvent(user, request.getLocale(), appUrl));
 
         return "emailSendConfirmation";
@@ -155,7 +155,7 @@ public class UserController {
     @PostMapping("/resend/token")
     public String resendVerificationTokenPost(@RequestParam String email,
                                               Model model,
-                                              WebRequest request) {
+                                              HttpServletRequest request) {
         User user = userService.findByEmail(email);
 
         if (user == null) {
@@ -164,7 +164,7 @@ public class UserController {
             return "error";
         }
 
-        String appUrl = request.getContextPath();
+        String appUrl = request.getScheme() + "://" + request.getServerName();
         eventPublisher.publishEvent(new OnUserSelfActivation(user, request.getLocale(), appUrl));
 
         return "emailSendConfirmation";
@@ -173,7 +173,7 @@ public class UserController {
     @PostMapping("/resend/password")
     public String resendPasswordResetPost(@RequestParam String email,
                                 Model model,
-                                WebRequest request) {
+                                HttpServletRequest request) {
         User user = userService.findByEmail(email);
 
         if (user == null) {
@@ -181,7 +181,7 @@ public class UserController {
             model.addAttribute("message", message);
             return "error";
         }
-        String appUrl = request.getContextPath();
+        String appUrl = request.getScheme() + "://" + request.getServerName();
         eventPublisher.publishEvent(new OnPasswordResetEvent(user, request.getLocale(), appUrl));
 
         return "emailSendConfirmation";
