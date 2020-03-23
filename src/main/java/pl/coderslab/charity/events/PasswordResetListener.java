@@ -37,6 +37,8 @@ public class PasswordResetListener implements ApplicationListener<OnPasswordRese
 
         String token = UUID.randomUUID().toString();
         userService.createVerificationToken(user, token, PASSWORD_RESET);
-        emailService.sendResetPasswordEmail(user, token);
+
+        String confirmationUrl = event.getAppUrl() + "/confirm/" + token;
+        emailService.sendResetPasswordEmail(user, confirmationUrl);
     }
 }

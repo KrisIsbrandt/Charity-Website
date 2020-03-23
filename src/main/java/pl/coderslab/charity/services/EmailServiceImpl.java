@@ -17,7 +17,6 @@ public class EmailServiceImpl implements EmailService  {
 
     private final JavaMailSender javaMailSender;
     private final TemplateEngine templateEngine;
-    private final String confirmationEndpoint = "http://localhost:8080/confirm/";
 
     @Value("${spring.mail.username}")
     private String applicationEmailAddress;
@@ -45,9 +44,7 @@ public class EmailServiceImpl implements EmailService  {
     }
 
     @Override
-    public void sendResetPasswordEmail(User user, String token) {
-        String confirmationUrl =  confirmationEndpoint + token;
-
+    public void sendResetPasswordEmail(User user, String confirmationUrl) {
         Context ctx = new Context();
         ctx.setVariable("firstName", user.getFirstName());
         ctx.setVariable("confirmationUrl", confirmationUrl);
@@ -57,9 +54,7 @@ public class EmailServiceImpl implements EmailService  {
     }
 
     @Override
-    public void sendVerificationEmail(User user, String token) {
-        String confirmationUrl =  confirmationEndpoint + token;
-
+    public void sendVerificationEmail(User user, String confirmationUrl) {
         Context ctx = new Context();
         ctx.setVariable("firstName", user.getFirstName());
         ctx.setVariable("confirmationUrl", confirmationUrl);
