@@ -99,7 +99,7 @@
                     <c:forEach items="${institutions}" var="institution" varStatus="loopCount">
                             <div class="col">
                                 <div class="title">${institution.name}</div>
-                                <div class="subtitle">${institution.description}</div>
+                                <div class="subtitle">Cel i misja: ${institution.description}</div>
                             </div>
                         <c:if test="${loopCount.count % 2 == 0}"></li><li></c:if>
                         <c:if test="${loopCount.last}"></li></c:if>
