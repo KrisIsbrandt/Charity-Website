@@ -25,9 +25,5 @@ The goal of the project is to create a web application where everyone can give u
 * User can check already provided donations
 * Forgotten password handling
 
-### Missing features
-* I18n for enums and messages
-* Tests
-
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
